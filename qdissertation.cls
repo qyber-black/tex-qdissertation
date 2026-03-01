@@ -1,5 +1,5 @@
-
 % qdissertation.cls -- Qyber dissertation class
+%
 % Engines: pdfLaTeX, XeLaTeX, LuaLaTeX.
 % Layout: A4, 12pt, 3cm margins; single line spacing; raggedright (default) or justified;
 %   main text 12pt, footnotes and captions at least 11pt. Prefer parenthetical asides;
@@ -18,7 +18,7 @@
 %
 % User commands (set in preamble): \title, \author, \degree, \university, \date;
 %   \license{SPDX-ID}, \copyrightholder{}, \licenseyear{} (optional).
-% In document: \maketitle{abstract text}; \bib{basename} for bibliography.
+% In document: \maketitle{abstract text}; \dedication{text} (optional); \bib{basename} for bibliography.
 % Override acronym file: \renewcommand{\qdissertationacronymfile}{yourfile.tex}.
 
 \NeedsTeXFormat{LaTeX2e}
@@ -34,7 +34,7 @@
 % Layout: oneside (default) or twoside for double-sided printing.
 % Citation: numeric (default) [1], [1,2] or harvard (Author, 2000).
 % Line spacing: single (default); onehalfspacing; linespread115 (1.15) or linespread12 (1.2)
-%   for institutions allowing 1.0--1.3 (PATS allows up to 1.3).
+%   for institutions allowing 1.0--1.3
 % Alignment: raggedright (default) = ragged-right; justified = fully justified text.
 \newif\ifqdissertation@justify
 \qdissertation@justifyfalse
@@ -520,7 +520,7 @@
 % fullwidthfigure/fullwidthtable floats (extend into margin via adjustwidth).
 % ------------------------------------------------------------------------------
 \newlength{\qdissertation@fullwidth@overhang}
-\setlength{\qdissertation@fullwidth@overhang}{1.5cm}
+\setlength{\qdissertation@fullwidth@overhang}{2cm}
 \ifqdissertation@fullwidth
   \newenvironment{fullwidth}{%
     \begin{adjustwidth}{-\qdissertation@fullwidth@overhang}{-\qdissertation@fullwidth@overhang}%
@@ -1010,8 +1010,16 @@
   \end{titlepage}
 }
 
+% Dedication: \dedication{...} inserts an unnumbered dedication chapter at that point.
+\newcommand{\dedication}[1]{%
+  \chapter[Dedication]{}\chaptermark{Dedication}%
+  \ \hfill\parbox{0.5\textwidth}{\begin{flushright}\slshape
+  #1%
+  \end{flushright}}\hspace{2.4em}%
+}
+
 % Full front-matter sequence: title page, optional copyright page, abstract,
-% then \frontlists (TOC, List of Figures, List of Tables, List of Algorithms, List of Acronyms)
+% then \frontlists (TOC, List of Figures, List of Tables, List of Algorithms, List of Acronyms).
 \renewcommand{\maketitle}[1]{%
   \maketitlepage
   \ifqdissertation@license
@@ -1105,6 +1113,8 @@
 % ------------------------------------------------------------------------------
 % Bibliography
 % ------------------------------------------------------------------------------
+% Title of the bibliography chapter (natbib uses \bibname in \bibsection).
+\renewcommand{\bibname}{References}
 % \bib{basename} sets bibliography style (harvard -> agsm, numeric -> plainnat),
 % optionally prints the License chapter (with full text if qdissertation-licenses.tex
 % defined it for this SPDX ID), then \bibliography{basename}.

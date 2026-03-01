@@ -15,7 +15,7 @@ Many institutions cap the main body (e.g.\ 10,000--12,000 for undergraduate, 15,
 
 ## Submission
 
-For electronic submission, use `make` or `make ENGINE=pdf`; pdflatex embeds fonts by default. Do not encrypt the PDF. Verify the final PDF before submitting.
+For electronic submission, use `make` (lualatex, default) or `make ENGINE=pdf`; both embed fonts by default. Do not encrypt the PDF. Verify the final PDF before submitting.
 
 ## Build
 
@@ -25,15 +25,15 @@ The Makefile uses **latexmk** to run the LaTeX engine, bibliography, and cross-r
 - **Remove build artifacts:** `make clean`. Use `make distclean` to also remove `main.pdf`.
 - **Word count:** `make wordcount` for per-file and total word count (caption words shown separately).
 
-**Choose the LaTeX engine** with the `ENGINE` variable (default: `pdf` = pdflatex):
+**Choose the LaTeX engine** with the `ENGINE` variable (default: `lua` = lualatex):
 
-- `make` or `make ENGINE=pdf` — pdflatex
-- `make ENGINE=xelatex` — XeLaTeX
-- `make ENGINE=lualatex` — LuaLaTeX
+- `make` or `make ENGINE=lua` — LuaLaTeX
+- `make ENGINE=pdf` — pdfLaTeX
+- `make ENGINE=xe` — XeLaTeX
 
 ## Requirements
 
-You need **latexmk**, **pdflatex** (or xelatex/lualatex if you switch engine), **makeglossaries** (for acronyms), and **bibtex** (for the bibliography). Install them via your distribution (TeX Live, MiKTeX, etc.).
+You need **latexmk**, **lualatex** (or pdflatex/xelatex if you switch engine), **makeglossaries** (for acronyms), and **bibtex** (for the bibliography). Install them via your distribution (TeX Live, MiKTeX, etc.).
 
 ## Quality checks
 

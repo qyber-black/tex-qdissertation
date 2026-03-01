@@ -1,16 +1,16 @@
 # Makefile for qdissertation template (uses latexmk)
 # Main dissertation file: main.tex. Run: make help for targets.
 #
-# LaTeX engine: set ENGINE to pdf (default), xelatex, or lualatex.
-#   make              # pdflatex
-#   make ENGINE=xelatex
-#   make ENGINE=lualatex
+# LaTeX engine: set ENGINE to lua (default), pdf, or xe.
+#   make              # lualatex
+#   make ENGINE=pdf
+#   make ENGINE=xe
 #
 # SPDX-FileCopyrightText: 2026 Frank Langbein <frank@langbein.org>
 # SPDX-License-Identifier: LPPL-1.3c
 
 MAIN = main
-ENGINE ?= pdf
+ENGINE ?= lua
 
 # ------------------------------------------------------------------------------
 # Default: build (first target). Run "make help" for all targets.
@@ -31,14 +31,14 @@ help:
 	@echo "  make wordcount  Per-file and total word count (captions shown separately)."
 	@echo "  make check    Run quality checks (REUSE lint, optional dissertation-specific)."
 	@echo ""
-	@echo "Engine: make ENGINE=pdf (default) | ENGINE=xelatex | ENGINE=lualatex"
+	@echo "Engine: make ENGINE=lua (default) | ENGINE=pdf | ENGINE=xe"
 
 # latexmk engine flag and compiler command for nonstopmode + file-line-error
-ifeq ($(ENGINE),xelatex)
+ifeq ($(ENGINE),xe)
   LATEXMK_ENGINE = -xelatex
   LATEXMK_CMD = -xelatex="xelatex -interaction=nonstopmode -file-line-error %O %S"
 else
-  ifeq ($(ENGINE),lualatex)
+  ifeq ($(ENGINE),lua)
     LATEXMK_ENGINE = -lualatex
     LATEXMK_CMD = -lualatex="lualatex -interaction=nonstopmode -file-line-error %O %S"
   else
@@ -55,11 +55,10 @@ LATEXMK = latexmk
 hacker-font:
 	@mkdir -p fonts
 	$(if $(SEED),python3 scripts/build-hacker-font.py --output-dir fonts --seed $(SEED),python3 scripts/build-hacker-font.py --output-dir fonts)
-	@echo "Run 'make' with document class option 'hacker' (and ENGINE=lualatex) to use obfuscation."
+	@echo "Run 'make' with document class option 'hacker' (and ENGINE=lua) to use obfuscation."
 
 $(MAIN).pdf: $(MAIN).tex qdissertation.cls bibliography.bib acronyms.tex \
-	C1/chapter1.tex C2/chapter2.tex C3/chapter3.tex C4/chapter4.tex \
-	C5/chapter5.tex C6/chapter6.tex Appendix/appendix.tex
+	C*/chapter*.tex A*/appendix*.tex
 	$(LATEXMK) $(LATEXMK_ENGINE) $(LATEXMK_CMD) $(MAIN)
 	-makeglossaries $(MAIN)
 	$(LATEXMK) $(LATEXMK_ENGINE) $(LATEXMK_CMD) $(MAIN)
@@ -72,7 +71,6 @@ clean:
 	rm -f *.fls *.fdb_latexmk *.synctex.gz
 
 distclean: clean
-	$(LATEXMK) -C $(MAIN)
 	rm -f $(MAIN).pdf
 	rm -rf fonts
 

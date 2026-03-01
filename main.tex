@@ -2,7 +2,7 @@
 % Template dissertation using the qdissertation class
 % =============================================================================
 % This file is the main entry point. Build: make (uses latexmk; see Makefile).
-% To use another engine: make ENGINE=xelatex or make ENGINE=lualatex.
+% Default engine: lualatex. To use another: make ENGINE=pdf or make ENGINE=xe.
 %
 % SPDX-FileCopyrightText: 2026 Frank Langbein <frank@langbein.org>
 % SPDX-License-Identifier: LPPL-1.3c
@@ -22,18 +22,41 @@
 % ``Appendix A'' in header; number/letter and title on first line of chapter.
 %
 % -----------------------------------------------------------------------------
+% Report structure
+% -----------------------------------------------------------------------------
+% Main body: Introduction, Background, Methodology (or ``Specification, Design
+% and Implementation'' / ``Approach''), Results and Evaluation, Conclusions and
+% Future Work, Reflection on Learning. Chapter~3 can be adapted or split; not all
+% sections apply to every project (system design, research, AI/ML). See each
+% chapter file for details and alternatives.
+%
+% Suggested sections at a glance (omit/rename as needed):
+%   1 Introduction:    Motivation and context; Aims and objectives; Contributions;
+%                      Dissertation structure. Optional: Scope, Terminology.
+%   2 Background:      Context; Related work (or Literature review); Problem statement.
+%                      Optional: Theory and concepts; Stakeholders and constraints.
+%   3 Methodology:     Depends on project type. System design: Specification, System
+%                      design, Implementation. Research: Research design, Literature
+%                      and evidence, Approach and solution, Implementation. AI/ML:
+%                      Specification, Datasets, AI/ML models, System design, Implementation.
+%                      Optional: Ethical considerations; Summary.
+%   4 Results:         Setup (or Experimental setup); Results; Discussion; Limitations.
+%                      Optional: Ablation studies; Comparison with baselines.
+%   5 Conclusions:     Conclusions; Future work.
+%   6 Reflection:      Critical narrative; Analysis and application; Implications
+%                      for future practice. (Omit chapter if not required.)
+%
+% -----------------------------------------------------------------------------
 % Variations (degree, structure)
 % -----------------------------------------------------------------------------
 % Select your degree via \degree below; commented alternatives shown for
-% BSc, MSc, MPhil. For some institutions, Chapter 6 (Reflection on Learning)
-% may be omitted or merged into another chapter; comment out that \chapter
-% and \input as needed.
+% BSc, MSc.
 %
 % -----------------------------------------------------------------------------
 % Class options
 % -----------------------------------------------------------------------------
 % Font: mixed (default) = sans text + serif math; sans = all sans-serif;
-%   serif = serif text and math.
+%   serif = serif text and math; hacker = typewriter/monospace open-source font throughout.
 % Layout: oneside (default) or twoside.
 % Citation: numeric (default) = plainnat, [1], [1,2]; harvard = agsm, (Author, 2000).
 % Alignment: raggedright (default) = ragged-right; justified = fully justified text.
@@ -76,9 +99,23 @@
 % parameters so more floats fit per page.
 %
 % -----------------------------------------------------------------------------
+% Headings: use title case for chapter titles (capitalise major words; keep
+% articles, conjunctions, and short prepositions lowercase unless first/last
+% word). Use sentence case for sections, subsections, and below (only the
+% first letter and proper nouns capitalised). Or adjust as preferred, but keep
+% it consistent.
+%
+% -----------------------------------------------------------------------------
 % LaTeX formatting: \citep/\citet (not \cite); ~ before \citep/\citet after a word;
 % \@ after abbreviation; ~ for non-breaking (Fig.~1); -- en-dash, --- em-dash.
-% Reviewer comments: %ID (e.g.\@ %F) at line start, space after ID.
+%
+% -----------------------------------------------------------------------------
+% Reviewer comments: %ID (e.g.\@ %F) at line start, space after ID. Include
+% comments directly in the text and discussions or questions can be included
+% as comments afterwards. Generally, these comments should be inserted closely
+% after the sentence or element it refers to. Delete the commetns when
+% addressed; do not keep ``for checking''. Edits can be easier found via git
+% diffs. Find comments with: grep -r '^%[A-Za-z] ' *.tex */*.tex
 %
 % -----------------------------------------------------------------------------
 % Footnotes: prefer putting short asides in parentheses in the main text. Use
@@ -93,9 +130,8 @@
 %
 % -----------------------------------------------------------------------------
 % Submission: ensure PDF has embedded fonts (pdflatex does this by default),
-% no encryption, and is compatible with your institution's requirements.
-% Run make wordcount and confirm main-body limit. Appendices and captions
-% are excluded from word counts in many institutional rules.
+% and is compatible with your institution's requirements (e.g. no encryption, be
+% careful with obfuscation).
 % =============================================================================
 \documentclass[mixed,oneside,numeric,raggedright,fullwidth]{qdissertation}
 
@@ -110,7 +146,7 @@
 
 % Tables
 \usepackage{tabularray}      % Flexible column types, rules, longtblr for multi-page tables
-\usepackage{booktabs}       % Alternative (traditional): \toprule, \midrule, \bottomrule
+\usepackage{booktabs}        % Alternative (traditional): \toprule, \midrule, \bottomrule
 \usepackage{longtable}       % Tables that span multiple pages (or use tabularray longtblr)
 %\usepackage{multirow}        % Span multiple rows in tables
 %\usepackage{multicol}        % Multiple columns in text/tables
@@ -142,7 +178,7 @@
 % -----------------------------------------------------------------------------
 % Dissertation metadata
 % -----------------------------------------------------------------------------
-\title{Template Dissertation Title: Each Word Capitalised}
+\title{Template Dissertation Title: Title Case for Chapters}
 \author{Your Full Name}
 % Degree
 \degree{BSc Computer Science}
@@ -163,11 +199,9 @@
 % \maketitle{...} produces: title page, (copyright page if \license set), abstract,
 % then frontlists: TOC, List of Figures, List of Tables, List of Algorithms,
 % List of Acronyms (if acronyms.tex defines \newacronym).
-% Current order: Title, (copyright), Abstract, TOC/LOF/LOT/LOA, Dedication,
-% Acknowledgements. Some institutions prefer Acknowledgements before TOC;
-% reordering is optional and project-specific.
-% Typically 200--300 words. State problem, methods, and main results.
+% Add \dedication{...} and \makededication separately if desired.
 \maketitle{%
+  % Abstract: typically 200--300 words. State problem, methods, and main results.
   This is the abstract: a short, self-contained summary of the dissertation.
   It should state the problem, methods, and main results so that a reader
   can understand the scope without reading the full document. Replace with
@@ -178,11 +212,10 @@
 % Optional front-matter chapters (unnumbered)
 % -----------------------------------------------------------------------------
 
-\chapter[Dedication]{}\chaptermark{Dedication}
-\ \hfill\parbox{0.25\textwidth}{\begin{flushright}\slshape%
-% Replace with your dedication (one or two lines).
-To my family.%
-\end{flushright}}\hspace{2.4em}
+% Replace with your dedication (one or two lines); optional.
+\dedication{%
+  To my family.%
+}
 
 \chapter{Acknowledgements}
 % Replace with your acknowledgements. Here you can also acknowledge any contributions from other
@@ -221,10 +254,8 @@ Code produced for this dissertation is available from [repository/DOI or ``avail
 \mainmatter
 
 % -----------------------------------------------------------------------------
-% Main chapters: standard dissertation structure
+% Main chapters (suggested structure in each chapter file; adjust to your project)
 % -----------------------------------------------------------------------------
-% For some institutions, Chapter 6 (Reflection on Learning) may be omitted or
-% merged; comment out the \chapter and \input for C6 as needed.
 \chapter{Introduction}\label{ch1}
 \input{C1/chapter1}
 
@@ -246,11 +277,14 @@ Code produced for this dissertation is available from [repository/DOI or ``avail
 \backmatter
 
 % -----------------------------------------------------------------------------
-% Appendices (lettered A, B, ... in headers and TOC)
+% Appendices
 % -----------------------------------------------------------------------------
 \appendix
 \chapter{Supplementary Material}\label{app:supp}
-\input{Appendix/appendix}
+\input{AA/appendixA}
+
+\chapter{Additional Results}\label{app:results}
+\input{AB/appendixB}
 
 % Bibliography (always last): \bib{bibfile} uses natbib (numeric or harvard per class option)
 % and inserts the License chapter if \license was set.

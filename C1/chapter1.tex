@@ -1,14 +1,14 @@
 % =============================================================================
-% CHAPTER 1: Introduction (dissertation template + feature demonstration)
+% CHAPTER 1: Introduction
 % =============================================================================
 % SPDX-FileCopyrightText: 2026 Frank Langbein <frank@langbein.org>
 % SPDX-License-Identifier: LPPL-1.3c
 %
-% This chapter is structured as a typical dissertation introduction: motivation,
-% aims and objectives, contributions, and dissertation roadmap. Replace each
-% section with your own content. It also demonstrates packages and class
-% features (citations, figures, tables, etc.); see Section~\ref{sec:ch1-reference}.
-% Document-level conventions (citations, formatting, %ID comments) are in main.tex.
+% Suggested sections: Motivation and context; Aims and objectives; Contributions;
+% Dissertation structure (roadmap). Optional: Scope (boundaries of the work),
+% Terminology or key terms. Start with a short chapter intro (no \section) before
+% the first section. This file also demonstrates template features; see
+% Section~\ref{sec:ch1-reference}. Remove that section for your own report.
 % =============================================================================
 
 % -----------------------------------------------------------------------------
@@ -167,17 +167,14 @@ Tables: use \texttt{booktabs} (\verb|\toprule|, \verb|\midrule|, \verb|\bottomru
 
 Outline how the rest of the dissertation is organised so the reader knows what to expect. Reference chapters by label.
 
-\subsection{Reading order}\label{sec:roadmap-order}
-
-Chapters are intended to be read in sequence; the appendix can be consulted as needed. This subsection illustrates \verb|\subsection| (and optional italic style with class option \texttt{italic}).
-
+The rest of this dissertation is organised as follows.
 \begin{itemize}
   \item \textbf{Chapter~\ref{ch2}} (Background): context, related work, problem statement.
-  \item \textbf{Chapter~\ref{ch3}} (Methodology): specification, design, implementation.
-  \item \textbf{Chapter~\ref{ch4}} (Results and Evaluation): main findings and critical appraisal.
+  \item \textbf{Chapter~\ref{ch3}} (Methodology): research design, specification, AI/ML approach (if applicable), system design, implementation.
+  \item \textbf{Chapter~\ref{ch4}} (Results and Evaluation): setup, results, evaluation, limitations.
   \item \textbf{Chapter~\ref{ch5}} (Conclusions and Future Work): summary and next steps.
   \item \textbf{Chapter~\ref{ch6}} (Reflection on Learning): transferable learning (omit if not required).
-  \item \textbf{Appendix~\ref{app:supp}}: supplementary material (tables, derivations, notation).
+  \item \textbf{Appendix~\ref{app:supp}} and \textbf{Appendix~\ref{app:results}}: supplementary material and additional results.
 \end{itemize}
 
 Algorithms (algorithm, algpseudocode) appear in the List of Algorithms (Algorithm~\ref{alg:demo}). Use \texttt{[t]} or \texttt{[!t]} for top placement like figures/tables. For code snippets use verbatim; for wide tables or figures use \texttt{\string
