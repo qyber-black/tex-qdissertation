@@ -9,15 +9,41 @@ The package also includes a short **initial plan / proposal** example (`plan.tex
 
 Variations (degree, optional Reflection chapter) are selectable via commented options in `main.tex`. Confirm your institution's word limits and structure before submission.
 
+## Getting started as an undergraduate or master's student
+
+This directory is intended to be your main dissertation project, including both the dissertation report and an initial project plan, kept under version control in a git repository (typically as a fork on GitHub, GitLab, or your institution's Git service).
+
+- **Fork the template**: on your hosting platform, fork the upstream repository that contains this directory into your own account or group. Then clone *your fork* to your machine so your local copy stays connected to your remote.
+- **Build once**: in this directory, run:
+
+  ```bash
+  make          # builds main.pdf (dissertation) and plan.pdf (initial plan example)
+  ```
+
+  This checks that your LaTeX toolchain is working correctly.
+- **Edit the dissertation**:
+  - Put global metadata in `main.tex` using `\title`, `\author`, your degree or programme, institution, and `\date` (plus any options or commands described in the comments of `main.tex`).
+  - Write your main chapters in the chapter files included by `main.tex` (for example `C1/chapter1.tex`, `C2/chapter2.tex`, and so on; adapt the structure to match your module's expectations).
+  - Use any appendix files (for example in `AA/`, `AB/`) for supplementary material such as extra results, code listings, or data summaries, if your institution allows appendices.
+
+While you are still close to the original template, you can occasionally bring in upstream updates to your fork if needed. Once you have made substantial local edits, treat upstream merges with care and only pull in specific changes you really need, reviewing and resolving any conflicts carefully.
+
 ## Compatibility
 
-The default layout (12pt, single line spacing, suggested chapter structure) is compatible with common institutional requirements for undergraduate and master's dissertations. Always confirm your institution's word limits, structure, and formatting rules before final submission.
+The default layout (12pt, single line spacing, suggested chapter structure) is
+compatible with common institutional requirements for undergraduate and
+master's dissertations. Always confirm your institution's word limits,
+structure, and formatting rules before final submission.
 
-Many institutions cap the main body (e.g.\ 10,000--12,000 for undergraduate, 15,000--20,000 for master's). Run `make wordcount`; caption words and front matter are usually excluded---texcount reports them separately.
+Many institutions cap the main body (e.g.\ 10,000--12,000 for undergraduate,
+15,000--20,000 for master's). Run `make wordcount`; caption words and front
+matter are usually excluded---texcount reports them separately.
 
 ## Submission
 
-For electronic submission, use `make` (lualatex, default) or `make ENGINE=pdf`; both embed fonts by default. Do not encrypt the PDF. Verify the final PDF before submitting.
+For electronic submission, use `make` (lualatex, default) or `make ENGINE=pdf`;
+both embed fonts by default. Do not encrypt the PDF. Verify the final PDF
+before submitting.
 
 ## Build
 
@@ -50,6 +76,19 @@ You need **latexmk**, **lualatex** (or pdflatex/xelatex if you switch engine), *
 
 Run `make check` to run REUSE lint (license and copyright compliance; see [REUSE](https://reuse.software)). This project is REUSE-compliant. If the `reuse` tool is not installed, the target reports that.
 
+## Working with git (recommended over Overleaf)
+
+We recommend keeping this project in a git repository hosted on a service such as GitHub, GitLab, or your institution's Git platform, instead of editing the sources directly on Overleaf. A simple workflow for an undergraduate or master's dissertation is:
+
+- **Edit, build, commit**:
+  - Make changes to your `.tex` files for the dissertation (`main.tex` and chapter files) or the plan (`plan.tex` or a copy).
+  - Run `make`, `make main`, or `make plan` to check that everything still compiles.
+  - Use `git status` to see what changed, then `git commit` with a short message when you reach a stable point.
+- **Use branches for bigger changes**: create a branch (for example `rewrite-methods` or `results-updates`) for substantial edits, and merge it back into your main branch once you are happy.
+- **Sync with your remote fork**: push regularly to your fork on GitHub, GitLab, or your institutional Git service so your work is backed up and can be reviewed, commented on, or cloned to another machine.
+
+If you are moving from Overleaf, copy your `.tex` and `.bib` files into this structure and commit them to your fork; from then on you can use git as your primary way of working.
+
 ## Where to put the class
 
 The template expects `qdissertation.cls` in the same directory as `main.tex`. To use the class in other projects, either copy `qdissertation.cls` into that project or install it in your TEXMF tree.
@@ -57,6 +96,13 @@ The template expects `qdissertation.cls` in the same directory as `main.tex`. To
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute.
+
+If you use this template for your own dissertation and find ways it could be improved (for example clearer comments in `main.tex` or `plan.tex`, better example sections, or small documentation clarifications), you are encouraged to feed those improvements back upstream:
+
+- Open an issue on the upstream project describing what was confusing or what you improved locally.
+- Or, from your fork, create a pull/merge request with a focused change that would be useful to other students and supervisors as well.
+
+Keep project- or module-specific customisations (such as particular marking schemes, institution-specific covers, or one-off formatting tweaks) in your fork; only propose upstream changes that are broadly applicable.
 
 ## License and copyright
 
